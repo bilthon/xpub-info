@@ -81,6 +81,24 @@ class Main extends React.Component {
 			chainCode, 
 			key 
 		} = this.state.xpub;
+		const table = version !== null ? (
+			<table>
+				<tbody>
+					<tr>
+						<td>version: {version}</td>
+						<td>depth: {depth}</td>
+					</tr>
+					<tr>
+						<td>parent: {parentFingerprint}</td>
+						<td>index: {index}</td>
+					</tr>
+					<tr>
+						<td>chaincode: {chainCode}</td>
+						<td>key: {key}</td>
+					</tr>
+				</tbody>
+			</table>
+		) : null;
 		return (
 			<div className={classes.root}>
 				<div className={classes.xpub}>
@@ -93,22 +111,7 @@ class Main extends React.Component {
 					</FormControl>
 				</div>
 				<div className={classes.summary}>
-					<table>
-						<tbody>
-							<tr>
-								<td>{version}</td>
-								<td>{depth}</td>
-							</tr>
-							<tr>
-								<td>{parentFingerprint}</td>
-								<td>{index}</td>
-							</tr>
-							<tr>
-								<td>{chainCode}</td>
-								<td>{key}</td>
-							</tr>
-						</tbody>
-					</table>
+					{table}
 				</div>
 			</div>
 		)
