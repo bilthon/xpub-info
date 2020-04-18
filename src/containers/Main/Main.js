@@ -4,6 +4,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { versionsArray } from '../../util/bip32';
+import bs58 from 'bs58';
 
 const styles = theme => ({
 	root: {
@@ -51,12 +52,13 @@ class Main extends React.Component {
 				result: {error: 'Invalid xpub'}
 			})
 		} else {
-			const depth = value.slice(4, 5);
-			const fingerprint = value.slice(5, 9);
-			const childNumber = value.slice(9, 13);
-			const chainCode = value.slice(13, 45);
-			const key = value.slice(45);
-			this.setState({
+			const decoded = bs58.decode(value);
+			const depth = decoded.slice(4, 5);
+			const fingerprint = decoded.slice(5, 9);
+			const childNumber = decoded.slice(9, 13);
+			const chainCode = decoded.slice(13, 45);
+			const key = decoded.slice(45, 78);
+		this.setState({
 				xpub: {
 					version: version,
 					depth: depth,
@@ -89,12 +91,14 @@ class Main extends React.Component {
 						<td>depth: {depth}</td>
 					</tr>
 					<tr>
-						<td>parent: {parentFingerprint}</td>
-						<td>index: {index}</td>
+						<td>parent: {parentFingerprint.toString('hex')}</td>
+						<td>index: {index.toString('hex')}</td>
 					</tr>
 					<tr>
-						<td>chaincode: {chainCode}</td>
-						<td>key: {key}</td>
+						<td>chaincode: {chainCode.toString('hex')}</td>
+					</tr>
+					<tr>
+						<td>key: {key.toString('hex')}</td>
 					</tr>
 				</tbody>
 			</table>
