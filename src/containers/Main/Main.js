@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { versionsArray } from '../../util/bip32';
 import bs58 from 'bs58';
+import AddressesContainer from '../AddressesContainer/AddressesContainer';
 
 const styles = theme => ({
 	root: {
@@ -74,7 +75,7 @@ class Main extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		const { result } = this.state;
+		const { result, xpub } = this.state;
 		const {
 			version, 
 			depth, 
@@ -82,7 +83,7 @@ class Main extends React.Component {
 			index, 
 			chainCode, 
 			key 
-		} = this.state.xpub;
+		} = xpub;
 		const table = version !== null ? (
 			<table>
 				<tbody>
@@ -117,6 +118,11 @@ class Main extends React.Component {
 				<div className={classes.summary}>
 					{table}
 				</div>
+				{xpub.version ? (
+					<div>
+						<AddressesContainer xpub={xpub}/>
+					</div>
+				) : null}
 			</div>
 		)
 	}
