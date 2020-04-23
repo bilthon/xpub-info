@@ -13,8 +13,7 @@ const styles = theme => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		margin: '0.5em',
-		height: '95vh'
+		margin: '0.5em'
 	},
 	xpub: {
 		width: '80%',
@@ -32,9 +31,10 @@ const styles = theme => ({
 class Main extends React.Component {
 	state = {
 		xpub: {
+			raw: null,
 			version: null,
 			depth: null,
-			parentFingerprint: null,
+			parent: null,
 			index: null,
 			chainCode: null,
 			key: null
@@ -49,7 +49,14 @@ class Main extends React.Component {
 		const version = value.slice(0, 4);
 		if ( versionsArray().indexOf(version) === -1) {
 			this.setState({
-				xpub:{version: null, depth: null, parentFingerprint: null, index: null, chainCode: null, key: null},
+				xpub:{
+					raw: null,
+					version: null, 
+					depth: null, 
+					parent: null, 
+					index: null, 
+					chainCode: null, 
+					key: null},
 				result: {error: 'Invalid xpub'}
 			})
 		} else {
@@ -59,17 +66,18 @@ class Main extends React.Component {
 			const childNumber = decoded.slice(9, 13);
 			const chainCode = decoded.slice(13, 45);
 			const key = decoded.slice(45, 78);
-		this.setState({
-				xpub: {
-					version: version,
-					depth: depth,
-					parentFingerprint: fingerprint,
-					index: childNumber,
-					chainCode: chainCode,
-					key: key
-				},
-				result: {error: null}
-			});
+			this.setState({
+					xpub: {
+						raw: value,
+						version: version,
+						depth: depth,
+						parent: fingerprint,
+						index: childNumber,
+						chainCode: chainCode,
+						key: key
+					},
+					result: {error: null}
+				});
 		}
 	}
 
@@ -79,7 +87,7 @@ class Main extends React.Component {
 		const {
 			version, 
 			depth, 
-			parentFingerprint, 
+			parent, 
 			index, 
 			chainCode, 
 			key 
@@ -92,7 +100,7 @@ class Main extends React.Component {
 						<td>depth: {depth}</td>
 					</tr>
 					<tr>
-						<td>parent: {parentFingerprint.toString('hex')}</td>
+						<td>parent: {parent.toString('hex')}</td>
 						<td>index: {index.toString('hex')}</td>
 					</tr>
 					<tr>
@@ -118,9 +126,9 @@ class Main extends React.Component {
 				<div className={classes.summary}>
 					{table}
 				</div>
-				{xpub.version ? (
+				{(xpub.raw) ? (
 					<div>
-						<AddressesContainer xpub={xpub}/>
+						<AddressesContainer xpub={xpub.raw}/>
 					</div>
 				) : null}
 			</div>
