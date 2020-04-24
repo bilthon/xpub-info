@@ -25,6 +25,9 @@ const styles = theme => ({
 	summary: {
 		width: '80%',
 		height: '200pt'
+	},
+	addresses: {
+		width: '80%'
 	}
 });
 
@@ -127,7 +130,7 @@ class Main extends React.Component {
 					{table}
 				</div>
 				{(xpub.raw) ? (
-					<div>
+					<div className={classes.addresses}>
 						<AddressesContainer xpub={xpub.raw}/>
 					</div>
 				) : null}

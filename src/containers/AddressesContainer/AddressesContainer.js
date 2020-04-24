@@ -27,9 +27,9 @@ class AddressesContainer extends Component {
 		});
 		const { xpub } = this.props;
 		return (
-			<Container maxWidth='xl'>
+			<Container>
 				<AppBar position='static' color='default'>
-					<Tabs value={selected} onChange={this.handleChange}>
+					<Tabs value={selected} onChange={this.handleChange} centered>
 						{versions.map((version, index) => (
 							<Tab key={index} label={version.title}/>
 						))}

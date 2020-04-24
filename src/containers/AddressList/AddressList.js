@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 
@@ -9,7 +10,7 @@ import { payments } from 'bitcoinjs-lib';
 import * as bip32 from 'bip32';
 import * as addressFormats from '../../util/addressFormats';
 
-const WALLET_GAP = 20;
+const WALLET_GAP = 5;
 
 class AddressList extends Component {
 	state = {
@@ -43,14 +44,16 @@ class AddressList extends Component {
 					return {address: 'unknown'}
 			}
 		});
-		console.log(listItemContents);
 		return (
 			<div hidden={this.props.hidden}>
 				<List>
 					{listItemContents.map((content, index) => {
 						return (
-							<ListItem key={index}>
-								<ListItemText primary={content.address}/>
+							<ListItem key={index} alignItems='flex-start' divider>
+								<ListItemText 
+									primary={content.address}
+									secondary={`${Math.floor(Math.random() * 10)}  Txs`}/>
+								<ListItemText primary='Value' secondary='344001 Sats' inset/>
 							</ListItem>
 						)
 					})
