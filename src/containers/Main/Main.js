@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { versionsArray } from '../../util/bip32';
 import bs58 from 'bs58';
 import AddressesContainer from '../AddressesContainer/AddressesContainer';
+import XpubDetails from '../../components/XpubDetails';
 
 const styles = theme => ({
 	root: {
@@ -95,26 +96,17 @@ class Main extends React.Component {
 			chainCode, 
 			key 
 		} = xpub;
-		const table = version !== null ? (
-			<table>
-				<tbody>
-					<tr>
-						<td>version: {version}</td>
-						<td>depth: {depth}</td>
-					</tr>
-					<tr>
-						<td>parent: {parent.toString('hex')}</td>
-						<td>index: {index.toString('hex')}</td>
-					</tr>
-					<tr>
-						<td>chaincode: {chainCode.toString('hex')}</td>
-					</tr>
-					<tr>
-						<td>key: {key.toString('hex')}</td>
-					</tr>
-				</tbody>
-			</table>
-		) : null;
+		const table = version !== null && depth !== null ? (
+			<XpubDetails
+				version={version}
+				depth={depth}
+				parent={parent}
+				index={index}
+				chainCode={chainCode}
+				_key={key}
+				/>
+			) : null;
+		// const table = null;
 		return (
 			<div className={classes.root}>
 				<div className={classes.xpub}>
