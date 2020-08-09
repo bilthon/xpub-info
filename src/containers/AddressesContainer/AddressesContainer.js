@@ -22,7 +22,8 @@ class AddressesContainer extends Component {
 		const versions = Object.keys(SUPPORTED_VERSIONS).map(key => {
 			return {
 				title: SUPPORTED_VERSIONS[key].title,
-				addrFormat: SUPPORTED_VERSIONS[key].address 
+				addrFormat: SUPPORTED_VERSIONS[key].address,
+				path: SUPPORTED_VERSIONS['xpub'].path
 			}
 		});
 		const { xpub } = this.props;
@@ -40,6 +41,7 @@ class AddressesContainer extends Component {
 						<AddressList 
 							key={index} 
 							xpub={xpub}
+							path={version.path}
 							addrFormat={version.addrFormat}
 							hidden={selected !== index}>{version}</AddressList>
 					);

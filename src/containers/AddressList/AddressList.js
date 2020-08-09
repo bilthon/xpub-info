@@ -10,7 +10,7 @@ import { payments } from 'bitcoinjs-lib';
 import * as bip32 from 'bip32';
 import * as addressFormats from '../../util/addressFormats';
 
-const WALLET_GAP = 5;
+const WALLET_GAP = 20;
 
 class AddressList extends Component {
 	state = {
@@ -22,16 +22,16 @@ class AddressList extends Component {
 		const node = bip32.fromBase58(this.props.xpub);
 		for (let index = 0; index < WALLET_GAP; index++) {
 			let external = node.derive(0).derive(index);
-			let change = node.derive(1).derive(index);
+			// let change = node.derive(1).derive(index);
 			keys.push({key: external.publicKey, type: 'external'});
-			keys.push({key: change.publicKey, type: 'change'});
+			// keys.push({key: change.publicKey, type: 'change'});
 		}
 		this.setState({rows: keys});
 	}
 
 	render() {
 		const { rows } = this.state;
-		const { addrFormat } = this.props;
+		const { addrFormat, path } = this.props;
 		let listItemContents = rows.map(row => {
 			switch (addrFormat) {
 				case addressFormats.P2PKH:
@@ -50,10 +50,11 @@ class AddressList extends Component {
 					{listItemContents.map((content, index) => {
 						return (
 							<ListItem key={index} alignItems='flex-start' divider>
+								<ListItemText
+									primary={path + '/0/' + index}
+								/>
 								<ListItemText 
-									primary={content.address}
-									secondary={`${Math.floor(Math.random() * 10)}  Txs`}/>
-								<ListItemText primary='Value' secondary='344001 Sats' inset/>
+									primary={content.address}/>
 							</ListItem>
 						)
 					})
