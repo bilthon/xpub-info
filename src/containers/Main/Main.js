@@ -96,7 +96,7 @@ class Main extends React.Component {
 			chainCode, 
 			key 
 		} = xpub;
-		const table = version !== null && depth !== null ? (
+		const table = (version && depth && parent && index && chainCode && key) ? (
 			<XpubDetails
 				version={version}
 				depth={depth}

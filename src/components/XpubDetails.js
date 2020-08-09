@@ -18,7 +18,7 @@ const xpubDetails = props => {
 				<tbody>
 					<tr>
 						<td>
-							<Typography variant='caption'><bold>version</bold></Typography>
+							<Typography variant='caption'>version</Typography>
 							<Typography variant='body1'>{props.version}</Typography>
 						</td>
 						<td>
@@ -47,8 +47,10 @@ const xpubDetails = props => {
 						</td>
 					</tr>
 					<tr>
-						<Typography variant='caption'>key</Typography>
-						<Typography variant='body1'>{props._key.toString('hex')}</Typography>
+						<td>
+							<Typography variant='caption'>key</Typography>
+							<Typography variant='body1'>{props._key.toString('hex')}</Typography>
+						</td>
 					</tr>
 				</tbody>
 			</table>
