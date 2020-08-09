@@ -3,7 +3,7 @@ import * as addressFormats from './addressFormats';
 export const SUPPORTED_VERSIONS = {
 	xpub: {
 		title: 'BIP-44',
-		path: 'm\/44\'/0\'',
+		path: 'm/44\'/0\'',
 		type: 'public',
 		address: addressFormats.P2PKH
 	},
