@@ -17,19 +17,19 @@ class AddressList extends Component {
 
 	componentDidMount(){
 		const keys = [];
+		const isChange = this.props.internal ? 1 : 0;
 		const node = bip32.fromBase58(this.props.xpub);
 		for (let index = 0; index < WALLET_GAP; index++) {
-			let external = node.derive(0).derive(index);
-			// let change = node.derive(1).derive(index);
-			keys.push({key: external.publicKey, type: 'external'});
-			// keys.push({key: change.publicKey, type: 'change'});
+			let subNode = node.derive(isChange).derive(index);
+			keys.push({key: subNode.publicKey});
 		}
 		this.setState({rows: keys});
 	}
 
 	render() {
 		const { rows } = this.state;
-		const { addrFormat, path } = this.props;
+		const { addrFormat, path, internal } = this.props;
+		const changeIndex = internal ? 1 : 0;
 		let listItemContents = rows.map(row => {
 			switch (addrFormat) {
 				case addressFormats.P2PKH:
@@ -49,7 +49,7 @@ class AddressList extends Component {
 						return (
 							<ListItem key={index} alignItems='flex-start' divider>
 								<ListItemText
-									primary={path + '/0/' + index}
+									primary={`${path}/${changeIndex}/${index}`}
 								/>
 								<ListItemText 
 									primary={content.address}/>
@@ -66,7 +66,8 @@ class AddressList extends Component {
 AddressList.propTypes = {
 	xpub: PropTypes.string.isRequired,
 	addrFormat: PropTypes.string.isRequired,
-	hidden: PropTypes.bool.isRequired
+	hidden: PropTypes.bool.isRequired,
+	internal: PropTypes.bool.isRequired
 }
 
 export default AddressList;

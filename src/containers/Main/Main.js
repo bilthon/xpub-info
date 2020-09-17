@@ -1,9 +1,14 @@
 import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { versionsArray } from '../../util/bip32';
+import { P2PKH } from '../../util/addressFormats';
 import bs58 from 'bs58';
 import AddressesContainer from '../AddressesContainer/AddressesContainer';
 import XpubDetails from '../../components/XpubDetails';
@@ -15,6 +20,17 @@ const styles = theme => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		margin: '0.5em'
+	},
+	radioSectionContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		marginTop: '1em'
+	},
+	radioButtonContainer: {
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'space-evenly'
 	},
 	xpub: {
 		width: '80%',
@@ -34,6 +50,7 @@ const styles = theme => ({
 
 class Main extends React.Component {
 	state = {
+		addressFormat: P2PKH,
 		xpub: {
 			raw: null,
 			version: null,
@@ -85,9 +102,13 @@ class Main extends React.Component {
 		}
 	}
 
+	handleAddressFormatChange = event => {
+		this.setState({addressFormat: event.target.value});
+	}
+
 	render() {
 		const { classes } = this.props;
-		const { result, xpub } = this.state;
+		const { addressFormat, result, xpub } = this.state;
 		const {
 			version, 
 			depth, 
@@ -106,7 +127,19 @@ class Main extends React.Component {
 				_key={key}
 				/>
 			) : null;
-		// const table = null;
+		let addressType = null;
+		if (version && depth && parent && index && chainCode && key) {
+			addressType = (
+				<div className={classes.radioSectionContainer}>
+					<FormLabel>Address Type</FormLabel>
+					<RadioGroup className={classes.radioButtonContainer} row aria-label="address format" name="address format" value={this.state.addressFormat} onChange={this.handleAddressFormatChange}>
+						<FormControlLabel value="P2PKH" control={<Radio />} label="P2PKH" />
+						<FormControlLabel value="P2SH" control={<Radio />} label="P2SH" />
+						<FormControlLabel value="P2WPKH" control={<Radio />} label="P2WPKH" />
+					</RadioGroup>
+				</div>
+			)
+		}
 		return (
 			<div className={classes.root}>
 				<div className={classes.xpub}>
@@ -116,6 +149,7 @@ class Main extends React.Component {
 							variant='outlined' 
 							label='Extended Key'/>
 						<FormHelperText variant='outlined'>{result.error ? result.error : ''}</FormHelperText>
+						{ addressType }
 					</FormControl>
 				</div>
 				<div className={classes.summary}>
@@ -123,7 +157,9 @@ class Main extends React.Component {
 				</div>
 				{(xpub.raw) ? (
 					<div className={classes.addresses}>
-						<AddressesContainer xpub={xpub.raw}/>
+						<AddressesContainer
+							addressFormat={addressFormat} 
+							xpub={xpub.raw}/>
 					</div>
 				) : null}
 			</div>

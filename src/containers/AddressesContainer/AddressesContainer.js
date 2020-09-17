@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
 
 import AddressList from '../AddressList/AddressList';
-import { SUPPORTED_VERSIONS } from '../../util/bip32';
+
 
 class AddressesContainer extends Component {
 	state = {
@@ -19,33 +19,29 @@ class AddressesContainer extends Component {
 
 	render() {
 		const { selected } = this.state;
-		const versions = Object.keys(SUPPORTED_VERSIONS).map(key => {
-			return {
-				title: SUPPORTED_VERSIONS[key].title,
-				addrFormat: SUPPORTED_VERSIONS[key].address,
-				path: SUPPORTED_VERSIONS['xpub'].path
-			}
-		});
-		const { xpub } = this.props;
+		const { xpub, addressFormat } = this.props;
+		const types = ['internal', 'external'];
 		return (
 			<Container>
 				<AppBar position='static' color='default'>
 					<Tabs value={selected} onChange={this.handleChange} centered>
-						{versions.map((version, index) => (
-							<Tab key={index} label={version.title}/>
+						{types.map((type, index) => (
+							<Tab key={index} label={type}/>
 						))}
 					</Tabs>
 				</AppBar>
-				{versions.map(( version, index ) => {
-					return (
-						<AddressList 
-							key={index} 
-							xpub={xpub}
-							path={version.path}
-							addrFormat={version.addrFormat}
-							hidden={selected !== index}>{version}</AddressList>
-					);
-				})}
+				<AddressList
+					xpub={xpub}
+					internal={true}
+					path={''}
+					addrFormat={addressFormat}
+					hidden={selected !== 0}>Internal</AddressList>
+				<AddressList
+					xpub={xpub}
+					internal={false}
+					path={''}
+					addrFormat={addressFormat}
+					hidden={selected !== 1}>External</AddressList>
 			</Container>
 		)
 	}
