@@ -5,7 +5,10 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import { withStyles } from '@material-ui/core/styles';
 import { versionsArray } from '../../util/bip32';
 import { P2PKH } from '../../util/addressFormats';
@@ -20,6 +23,16 @@ const styles = theme => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		margin: '0.5em'
+	},
+	header: {
+		width: '80%'
+	},
+	footer: {
+		width: '80%'
+	},
+	title: {
+		textAlign: 'center',
+		marginBottom: '1em'
 	},
 	radioSectionContainer: {
 		display: 'flex',
@@ -142,6 +155,15 @@ class Main extends React.Component {
 		}
 		return (
 			<div className={classes.root}>
+				<section className={classes.header}>
+					<Typography className={classes.title} variant='h4'>Xpub Info</Typography>
+					<Typography variant='body1'>
+						An xpub (short for eXtended PUBlic key) is a special kind of key that comes attached with some extra meta-data that allows it to extend it to generate new keys.
+					</Typography>
+					<Typography variant='body1'>
+						You can use this tool to check the different bitcoin addresses that any xpub can generate.
+					</Typography>
+				</section>
 				<div className={classes.xpub}>
 					<FormControl fullWidth error={result.error !== null}>
 						<TextField
@@ -162,6 +184,28 @@ class Main extends React.Component {
 							xpub={xpub.raw}/>
 					</div>
 				) : null}
+
+				<section className={classes.footer}>
+					<Typography variant='subtitle1'>
+						Is this safe?
+					</Typography>
+					<Typography variant='caption' paragraph>
+						An extended public key can only generate "public" keys, meaning
+						that the keys generated in the browser will not be able to be
+						used to spend your funds. There are serious privacy concerns
+						in revealing your xpub to third parties, as these will be
+						able not only to discover all your past transaction history,
+						but track you in the future as well.
+					</Typography>
+					<Typography variant='caption' paragraph>
+						This website is not collecting xpubs and is intended as an educational tool. 
+						But you don't have to trust this, you can verify it by checking the source code <Link href='https://github.com/bilthon/xpub-info'>here</Link>.
+						And of course, you can always run it off-line ;).
+					</Typography>
+					<Link href='https://github.com/bilthon/xpub-info' target='_blank' rel='noreferrer'>
+						<GitHubIcon style={{width: '100%'}}/>
+					</Link>
+				</section>
 			</div>
 		)
 	}
