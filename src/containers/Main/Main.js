@@ -157,10 +157,10 @@ class Main extends React.Component {
 			<div className={classes.root}>
 				<section className={classes.header}>
 					<Typography className={classes.title} variant='h4'>Xpub Info</Typography>
-					<Typography variant='body1'>
+					<Typography variant='body1' paragraph>
 						An xpub (short for eXtended PUBlic key) is a special kind of key that comes attached with some extra meta-data that allows it to extend it to generate new keys.
 					</Typography>
-					<Typography variant='body1'>
+					<Typography variant='body1' paragraph>
 						You can use this tool to check the different bitcoin addresses that any xpub can generate.
 					</Typography>
 				</section>
