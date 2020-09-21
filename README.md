@@ -1,5 +1,5 @@
 ## Live version
-[xpub.info](http://xpub.info)
+[xpub.info](http://www.xpub.info)
 
 
 ## Available Scripts
